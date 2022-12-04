@@ -1,0 +1,113 @@
+@startuml
+Class Route{
+
+boolean : sensUnique
+
+Void : avancer(Voiture v)
+}
+
+abstract class Jonction{
+
+Void : avancer abstract (Voiture v)
+
+}
+class Voiture{
+Identifiant :int
+final longueur : int
+VitesseMax : final int
+Position : int
+SensDeDeplacement : boolean
+Vitesse : int
+
+void : avancer(Voiture v)
+
+}
+class PassagePieton{
+Void : avancer(Voiture v)
+}
+class Bariere  {
+Void : avancer(Voiture v)
+}
+class Carrefour {
+Void : avancer(Voiture v)
+}
+
+
+
+abstract Class Semaphore{
+Direction : boolean
+
+void : abstract update(Voiture voiture)
+}
+Class FeuBicolore{
+Couleur : String
+void : update(Voiture voiture)
+}
+Class FeuTricolore{
+Couleur : String
+
+void update(Voiture voiture)
+}
+Class PanneauxDeLimitation{
+VitesseMax : final int
+void update(Voiture voiture)
+}
+
+
+abstract Class Capteur{
+position : int
+
+void : abstract detecter(Voiture v)
+
+}
+Class CapteurPresence{
+
+void : detecter(Voiture v)
+}
+class CapteurVitesse{
+
+void : detecter(Voiture v)
+}
+
+Abstract class ElementdeRegulation{
+Void : abstract reguler(Voiture v)
+}
+
+Class RegulationCarrefourdFeuOrder{
+Void : reguler(Voiture v)
+
+}
+class RegulationCarrefourdFeuCapteur{
+Void : reguler(Voiture v)
+}
+
+class RegulationPieton{
+Void : reguler(Voiture v)
+}
+
+
+ElementdeRegulation <|-- RegulationCarrefourdFeuOrder
+ElementdeRegulation <|-- RegulationPieton
+ElementdeRegulation <|-- RegulationCarrefourdFeuCapteur
+
+Capteur<|-- CapteurPresence
+
+Capteur<|-- CapteurVitesse
+
+Semaphore  <|-- FeuBicolore
+Semaphore  <|-- FeuTricolore
+Semaphore  <|-- PanneauxDeLimitation
+ElementdeRegulation "*"-- "*"Capteur
+ElementdeRegulation "*"--"*" Semaphore
+Jonction <|-- PassagePieton
+Jonction <|-- Bariere
+Jonction <|-- Carrefour
+
+Semaphore "1..*" -- "1" Route
+Route "1..*"-- "2"Jonction
+Voiture "0..*"-- "1" Route
+
+Capteur "0..*" -- "1"Route
+
+
+@enduml
